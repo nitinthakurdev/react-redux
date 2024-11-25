@@ -22,6 +22,18 @@ export const getUser = createAsyncThunk("getUser", async (_, { rejectWithValue }
     }
 });
 
+export const deleteUser = createAsyncThunk(
+    "deleteUser",
+    async (id, { rejectWithValue }) => {
+        try {
+            const res = await axios.delete(`http://localhost:4200/users/${id}`);
+            return res.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
 
 const userDetails = createSlice({
     name: "usersDetails",
@@ -53,6 +65,19 @@ const userDetails = createSlice({
                 state.users = action.payload ;
             })
             .addCase(getUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
+        builder
+            .addCase(deleteUser.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                state.loading = false;
+                const {id} = action.payload;
+                state.users = state.users.filter((item)=>item?.id !== id);
+            })
+            .addCase(deleteUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });

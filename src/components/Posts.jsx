@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUser } from '../store/slices/userdetail'
+import { deleteUser, getUser } from '../store/slices/userdetail'
 import Loader from './Loader'
 
 const Posts = () => {
@@ -26,6 +26,9 @@ const Posts = () => {
 						</h3>
 						<button className="text-sm font-medium text-gray-500">
 							Update
+						</button>
+						<button onClick={()=>{dispatch(deleteUser(item?.id))}} className="text-sm font-medium text-gray-500">
+							Delete
 						</button>
 					</div>
 					<p className="mt-1 max-w-2xl text-sm text-gray-500">

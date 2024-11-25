@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createUser } from '../store/slices/userdetail';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePosts = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [data, setData] = useState({
         name:"",
@@ -18,6 +20,7 @@ const CreatePosts = () => {
 
     const handleSubmit = () => {
         dispatch(createUser(data))
+        navigate("/")
     }
 
 
